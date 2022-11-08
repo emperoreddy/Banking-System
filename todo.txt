@@ -1,0 +1,14 @@
+Aplicatie pentru gestiunea conturilor bancare pentru persoane fizice de la nivelul unei filiale bancare
+- deschidere cont
+- retrageri / depuneri de bani
+- inchidere cont
+- transfer de bani intre conturi
+- calcul total disponibil la nivel de persoana care detine mai multe conturi 
+
+
+
+TIPS:
+- write functions into public class
+- access them with classname::function()
+- make  one object into main
+- in main place intro text
