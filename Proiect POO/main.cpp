@@ -11,7 +11,7 @@ private:
 	int numarCont;
 	int valoareCont;
 	int numarDeConturiRealizate;
-	char* numeClient;
+	// char* numeClient;
 
 public:
 	// definire parametri default
@@ -22,8 +22,12 @@ public:
 		//this->numeClient = new char[strlen(numeClient) + 1];
 		//strcpy(this->numeClient, numeClient);
 	}
-	void preluareDateDinFisier();
+	void preluareDateDinFisier(int numarCont);
+	void preluareNumarContFisier();
 	void creareCont();
+	void setNumarDeConturiRealizate(int numarDeConturiRealizate) {
+		this->numarCont = preluareNumarContFisier();
+	}
 };
 
 void mesajCreare() {
@@ -60,30 +64,7 @@ void mesajCont() {
 }*/
 
 
-//void Cont::preluareDateDinFisier() {
-//	ifstream fisierConturi;
-//	fisierConturi.open("conturi.txt");
-//
-//	string line;
-//	string arrayLine[10];
-//	int nrOfLines = 0;
-//	int i = 0;
-//	
-//	if (fisierConturi.is_open()) {
-//		while (!fisierConturi.eof()) {
-//		getline(fisierConturi, line);
-//		arrayLine[i] = line;
-//		nrOfLines++;
-//		i++;
-//	}
-//	//	for (int j = 0; j < nrOfLines; j++) {
-//	//		//cout << arrayLine[j + 1] << endl;
-//	//		line.substr(0, 1);
-//	//}
-//	}	
-//}
-
-void Cont::preluareDateDinFisier() {
+void Cont::preluareDateDinFisier(int numarCont) {
 	ifstream fisierConturi;
 	fisierConturi.open("conturi.txt");
 	map<int, int> conturi;
@@ -110,6 +91,15 @@ void Cont::preluareDateDinFisier() {
 
 	}
 }
+
+
+// TODO: implementeaza luarea din fisier a primei linii si returneaza valoarea
+void preluareNumarContFisier() {
+	
+}
+
+
+
 
 void Cont::creareCont() {
 
