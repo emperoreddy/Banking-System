@@ -1,0 +1,38 @@
+- Creare cont
+	* stocare date cont intr un fisier (conturile o sa aiba cifre de la 0 la n)
+	* valoarea contului o sa fie 0 initial
+	* afisare numar cont si valoare initiala dupa creare (plasat intr un fisier) 
+	* verificare daca exista cont (in fisierul conturi o sa fie [numarCont valoareCont], cautam in fisier )
+	
+	
+- Inchidere cont
+	* cautare numar cont in fisierul conturi
+	* stergerea liniei unde s a gasit numarul contului
+
+
+	
+- Depunere bani  
+	* cautare numar cont in fisierul conturi
+	* adaugare valoare depusa dupa numarul contului 
+
+- Retragere bani 
+	* cautare numar cont in fisierul conturi
+	* VERIFICARE daca suma de retras este <= valoarea contului
+	* scadere valoare initiala cu valoarea retrasa
+	
+- Transfer in alt cont 
+	* cautare numar cont de la care se transfera in fisierul conturi (si stocarea valoarii contului intr o variabila)
+	* cautare numar cont in care se transfera in fisierul conturi (si stocare valoare cont in variabila)
+	* VERIFICARE daca numarul contului exista
+	* VERIFICARE daca suma de transferat este <= valoarea contului curent
+	* scadere valoare initiala cu valoarea transferata
+	* adaugare valoare transferata la valoarea contului in care se transfera
+
+- Suma totala detinuta de toate conturile
+	* citire valori conturi din fisier 
+	* stocare intr o variabila array
+	* suma valorilor din array
+
+
+
+	
