@@ -23,11 +23,9 @@ public:
 		//strcpy(this->numeClient, numeClient);
 	}
 	void preluareDateDinFisier(int numarCont);
-	void preluareNumarContFisier();
+	int preluareNumarDeConturiFisier();
 	void creareCont();
-	void setNumarDeConturiRealizate(int numarDeConturiRealizate) {
-		this->numarCont = preluareNumarContFisier();
-	}
+	void setNumarDeConturiRealizate(int numarDeConturiRealizate);
 };
 
 void mesajCreare() {
@@ -63,17 +61,20 @@ void mesajCont() {
 	}
 }*/
 
-
+// FIX: nu prelua prima linie din fisier
 void Cont::preluareDateDinFisier(int numarCont) {
 	ifstream fisierConturi;
 	fisierConturi.open("conturi.txt");
 	map<int, int> conturi;
 	string line;
+	int primaLinie = 0;
 
 	while (getline(fisierConturi, line)) {
 		if (line.empty()) {
 			continue;
 		}
+		// daca linia contine numarul de conturi, se trece peste acea valoare
+		//if (line.size() <= 2) continue;
 		auto it = line.find(" ");
 
 		if (it != string::npos) {
@@ -85,17 +86,26 @@ void Cont::preluareDateDinFisier(int numarCont) {
 		}
 
 		// daca gaseste cheia, afiseaza valoarea contului 
-		if (conturi.find(2) != conturi.end()) {
-			cout << conturi[2] << endl;
+		if (conturi.find(numarCont) != conturi.end()) {
+			cout << conturi[numarCont] << endl;
 		}
 
 	}
 }
 
 
-// TODO: implementeaza luarea din fisier a primei linii si returneaza valoarea
-void preluareNumarContFisier() {
-	
+
+int Cont::preluareNumarDeConturiFisier() {
+	ifstream fisierConturi;
+	fisierConturi.open("conturi.txt");
+	string line;
+	// preluare prima linie din fisier - nr de conturi
+	while (!fisierConturi.eof()) {
+		getline(fisierConturi, line);
+		this->numarDeConturiRealizate = stoi(line);
+		break;
+	}
+	return this->numarDeConturiRealizate;
 }
 
 
@@ -117,7 +127,7 @@ void Cont::creareCont() {
 
 int main() {
 	Cont cont;
-	cont.creareCont();
-	cont.preluareDateDinFisier();
-	
+//	cont.creareCont();
+	cont.preluareDateDinFisier(1);
+//	cout << "Nr de conturi: "<< cont.preluareNumarContFisier();
 }
