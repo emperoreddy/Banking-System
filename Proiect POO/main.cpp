@@ -105,6 +105,7 @@ int Cont::preluareNumarDeConturiFisier() {
 		this->numarDeConturiRealizate = stoi(line);
 		break;
 	}
+
 	return this->numarDeConturiRealizate;
 }
 
