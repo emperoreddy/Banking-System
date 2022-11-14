@@ -25,11 +25,14 @@ public:
 	int preluareDateDinFisier(int numarCont);
 	int preluareNumarDeConturiFisier();
 	void creareCont();
-	void setNumarDeConturiRealizate(int numarDeConturiRealizate) {
-		//TODO: preluare variabila din fisier  
-		//TODO: plasare in variabila din clasa
-		//TODO: incrementare variabila
+	bool fisierGol();
+	void modificareNumarConturi(int numarConturi);
+	bool numarContEsteValid(int numarCont);
+	void setNumarDeConturiRealizate() {
 		//TODO: plasare in fisier
+		this->numarDeConturiRealizate = preluareNumarDeConturiFisier();
+		this->numarDeConturiRealizate++;
+		modificareNumarConturi(this->numarDeConturiRealizate);
 
 	}
 };
@@ -44,6 +47,16 @@ void mesajCont() {
 	cout << "----------------------------------------------" << endl;
 	cout << "1. Depunere bani \n2. Retragere bani \n3. Transfer in alt cont \n4. Suma totala detinuta de toate conturile" << endl;
 	cout << "----------------------------------------------" << endl;
+}
+
+bool Cont::fisierGol() {
+	ifstream fisier("conturi.txt");
+	if (fisier.peek() == ifstream::traits_type::eof()) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 // optiuni creare
@@ -67,60 +80,115 @@ void mesajCont() {
 	}
 }*/
 
-// FIX: nu prelua prima linie din fisier
 int Cont::preluareDateDinFisier(int numarCont) {
 	ifstream fisierConturi;
-	fisierConturi.open("conturi.txt");
 	map<int, int> conturi;
 	string line;
 	int primaLinie = 0;
-
-	while (getline(fisierConturi, line)) {
-		if (line.empty()) {
-			continue;
-		}
-		// daca linia contine numarul de conturi, se trece peste acea valoare
-		if (line.size() <= 2) continue;
-		auto it = line.find(" ");
-
-		if (it != string::npos) {
-			// stoi = conversie din string in int
-			// preluare prima valoare si a doua valoare de pe fiecare linie
-			this->numarCont = stoi(line.substr(0, it));
-			this->valoareCont = stoi(line.substr(it + 1, line.npos));
-			conturi[this->numarCont] = this->valoareCont;
-		}
-
-
+	fisierConturi.open("conturi.txt");
+	if (fisierGol()) {
+		return 0;
 	}
+	else {
+		while (getline(fisierConturi, line)) {
+			if (line.empty()) {
+				continue;
+			}
+			// daca linia contine numarul de conturi, se trece peste acea valoare
+			if (line.size() <= 2) continue;
+			auto it = line.find(" ");
+
+			if (it != string::npos) {
+				// stoi = conversie din string in int
+				// preluare prima valoare si a doua valoare de pe fiecare linie
+				this->numarCont = stoi(line.substr(0, it));
+				this->valoareCont = stoi(line.substr(it + 1, line.npos));
+				conturi[this->numarCont] = this->valoareCont;
+			}
+
+
+		}
 
 		// daca gaseste cheia, afiseaza valoarea contului 
-	if (conturi.find(numarCont) != conturi.end()) {
-		// cout << conturi[numarCont] << endl;
-		return (int)conturi[numarCont];
+		if (conturi.find(numarCont) != conturi.end()) {
+			// cout << conturi[numarCont] << endl;
+			return (int)conturi[numarCont];
+		}
 	}
-	else { 
-	 cerr << "Contul nu a fost gasit!";
-	 return 0;
 	}
+
+bool Cont::numarContEsteValid(int numarCont) {
+	ifstream fisierConturi;
+	map<int, int> conturi;
+	string line;
+	fisierConturi.open("conturi.txt");
+	if (fisierGol()) {
+		return true;
+	}
+	else {
+		while (getline(fisierConturi, line)) {
+			if (line.empty()) {
+				continue;
+			}
+			// daca linia contine numarul de conturi care va fi <= 99, se trece peste acea valoare
+			if (line.size() <= 2) continue;
+			auto it = line.find(" ");
+
+			if (it != string::npos) {
+				// stoi = conversie din string in int
+				// preluare prima valoare si a doua valoare de pe fiecare linie
+				this->numarCont = stoi(line.substr(0, it));
+				// daca exista numarul de cont, se returneaza ca fiind invalid(fals)
+				if (this->numarCont == numarCont) {
+					return false;
+					break;
+				}
+			}
+
+
+		}
+	}
+
 }
-
-
 
 int Cont::preluareNumarDeConturiFisier() {
 	ifstream fisierConturi;
 	fisierConturi.open("conturi.txt");
 	string line;
-	// preluare prima linie din fisier - nr de conturi
-	while (!fisierConturi.eof()) {
-		getline(fisierConturi, line);
-		this->numarDeConturiRealizate = stoi(line);
-		break;
-	}
 
-	return this->numarDeConturiRealizate;
+	if (fisierGol()) {
+		return 0;
+	}
+	else {
+		// preluare prima linie din fisier - nr de conturi
+		while (!fisierConturi.eof()) {
+			getline(fisierConturi, line);
+			this->numarDeConturiRealizate = stoi(line);
+			break;
+		}
+
+		return this->numarDeConturiRealizate;
+	}
 }
 
+void Cont::modificareNumarConturi(int numarConturi) {
+	ifstream fisierConturi;
+	fisierConturi.open("conturi.txt");
+	string line;
+	numarConturi = preluareNumarDeConturiFisier();
+			// preluare prima linie din fisier - nr de conturi
+		while (!fisierConturi.eof()) {
+			getline(fisierConturi, line);
+			//int pozitie = line.find(numarConturi);
+			int pozitie = 0;
+			string valoareModificata = to_string(numarConturi);
+			// daca nr de conturi contine doar o cifra
+			int lungime = line.size();
+			line.replace(pozitie, lungime, valoareModificata);
+			break;
+		}
+
+}
 
 
 
@@ -129,18 +197,27 @@ void Cont::creareCont() {
 	// deschidere fisier
 	ofstream fisierConturi;
 	fisierConturi.open("conturi.txt", ios::app);
+	int numarCont = 0;
 	cout << "Numar cont: " << endl;
-	cin >> this->numarCont;
+	cin >> numarCont;
+	while (!numarContEsteValid(numarCont)) {
+		cout << "Acest cont deja exista, alege alt numar de cont!" << endl;
+		cout << "Numar cont: " << endl;
+		cin >> numarCont;
+	}
 	// scrierea datelor in fisier
 	// daca am deja deja nr conturi realizate pe prima linie, atunci o preiau si o incrementez
-	fisierConturi << this->numarDeConturiRealizate << endl;
-	fisierConturi << this->numarCont << " " << this->valoareCont << endl;
+	if (!fisierGol()) {
+		setNumarDeConturiRealizate();
+		fisierConturi << endl;
+	}
+	else fisierConturi << 0 << endl;
+	fisierConturi << numarCont << " " << 0 << endl;
 	}
 
 
 int main() {
 	Cont cont;
-//	cont.creareCont();
-	cout << cont.preluareDateDinFisier(2);
-//	cout << "Nr de conturi: "<< cont.preluareNumarContFisier();
+	cont.creareCont();
+	//cout << cont.preluareDateDinFisier(3);
 }
