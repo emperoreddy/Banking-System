@@ -171,6 +171,8 @@ int Cont::preluareNumarDeConturiFisier() {
 	}
 }
 
+// FIX: linia nu se schimba
+// FIX: se adauga un enter in plus dupa inserarea in fisier
 void Cont::modificareNumarConturi(int numarConturi) {
 	ifstream fisierConturi;
 	fisierConturi.open("conturi.txt");
