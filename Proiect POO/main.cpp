@@ -22,10 +22,16 @@ public:
 		//this->numeClient = new char[strlen(numeClient) + 1];
 		//strcpy(this->numeClient, numeClient);
 	}
-	void preluareDateDinFisier(int numarCont);
+	int preluareDateDinFisier(int numarCont);
 	int preluareNumarDeConturiFisier();
 	void creareCont();
-	void setNumarDeConturiRealizate(int numarDeConturiRealizate);
+	void setNumarDeConturiRealizate(int numarDeConturiRealizate) {
+		//TODO: preluare variabila din fisier  
+		//TODO: plasare in variabila din clasa
+		//TODO: incrementare variabila
+		//TODO: plasare in fisier
+
+	}
 };
 
 void mesajCreare() {
@@ -62,7 +68,7 @@ void mesajCont() {
 }*/
 
 // FIX: nu prelua prima linie din fisier
-void Cont::preluareDateDinFisier(int numarCont) {
+int Cont::preluareDateDinFisier(int numarCont) {
 	ifstream fisierConturi;
 	fisierConturi.open("conturi.txt");
 	map<int, int> conturi;
@@ -74,22 +80,28 @@ void Cont::preluareDateDinFisier(int numarCont) {
 			continue;
 		}
 		// daca linia contine numarul de conturi, se trece peste acea valoare
-		//if (line.size() <= 2) continue;
+		if (line.size() <= 2) continue;
 		auto it = line.find(" ");
 
 		if (it != string::npos) {
-			// conversie din string in int
+			// stoi = conversie din string in int
 			// preluare prima valoare si a doua valoare de pe fiecare linie
 			this->numarCont = stoi(line.substr(0, it));
 			this->valoareCont = stoi(line.substr(it + 1, line.npos));
 			conturi[this->numarCont] = this->valoareCont;
 		}
 
-		// daca gaseste cheia, afiseaza valoarea contului 
-		if (conturi.find(numarCont) != conturi.end()) {
-			cout << conturi[numarCont] << endl;
-		}
 
+	}
+
+		// daca gaseste cheia, afiseaza valoarea contului 
+	if (conturi.find(numarCont) != conturi.end()) {
+		// cout << conturi[numarCont] << endl;
+		return (int)conturi[numarCont];
+	}
+	else { 
+	 cerr << "Contul nu a fost gasit!";
+	 return 0;
 	}
 }
 
@@ -129,6 +141,6 @@ void Cont::creareCont() {
 int main() {
 	Cont cont;
 //	cont.creareCont();
-	cont.preluareDateDinFisier(1);
+	cout << cont.preluareDateDinFisier(2);
 //	cout << "Nr de conturi: "<< cont.preluareNumarContFisier();
 }
