@@ -26,13 +26,13 @@ public:
 	int preluareNumarDeConturiFisier();
 	void creareCont();
 	bool fisierGol();
-	void modificareNumarConturi(int numarConturi);
+	void modificareNumarConturi();
 	bool numarContEsteValid(int numarCont);
 	void setNumarDeConturiRealizate() {
 		//TODO: plasare in fisier
-		this->numarDeConturiRealizate = preluareNumarDeConturiFisier();
-		this->numarDeConturiRealizate++;
-		modificareNumarConturi(this->numarDeConturiRealizate);
+		/*this->numarDeConturiRealizate = preluareNumarDeConturiFisier();
+		this->numarDeConturiRealizate += 1;*/
+		modificareNumarConturi();
 
 	}
 };
@@ -173,25 +173,48 @@ int Cont::preluareNumarDeConturiFisier() {
 
 // FIX: linia nu se schimba
 // FIX: se adauga un enter in plus dupa inserarea in fisier
-void Cont::modificareNumarConturi(int numarConturi) {
-	ifstream fisierConturi;
-	fisierConturi.open("conturi.txt");
+
+//void Cont::modificareNumarConturi() {
+//	ifstream fisierConturi;
+//	fisierConturi.open("conturi.txt");
+//	string line;
+//	int numarConturi;
+//	numarConturi = preluareNumarDeConturiFisier();
+//			// preluare prima linie din fisier - nr de conturi
+//		while (!fisierConturi.eof()) {
+//			getline(fisierConturi, line);
+//			size_t pozitie = line.find(numarConturi);
+//			//int pozitie = 0;
+//			string valoareModificata = to_string(numarConturi);
+//			//int lungime = line.size();
+//			int lungime = line.length();
+//			//line.replace(pozitie, lungime, valoareModificata);
+//			line.replace(pozitie, lungime, "2");
+//			break;
+//		}
+//
+//}
+
+void Cont::modificareNumarConturi() {
+	ifstream filein("conturi.txt");
+	ofstream fileout("conturiNew.txt");
+	int numarContInt = preluareNumarDeConturiFisier();
+	int numarContIntNou = numarContInt + 1;
+	// conversie in string
+	string numarConturiNou = to_string(numarContIntNou);
+	string numarConturi = to_string(numarContInt);
+	if (!filein || !fileout) {
+		cout << "Eroare deschidere" << endl;
+	}
 	string line;
-	numarConturi = preluareNumarDeConturiFisier();
-			// preluare prima linie din fisier - nr de conturi
-		while (!fisierConturi.eof()) {
-			getline(fisierConturi, line);
-			//int pozitie = line.find(numarConturi);
-			int pozitie = 0;
-			string valoareModificata = to_string(numarConturi);
-			// daca nr de conturi contine doar o cifra
-			int lungime = line.size();
-			line.replace(pozitie, lungime, valoareModificata);
-			break;
-		}
+	string strTemp;
+	//bool found = false;
+	while (getline(filein, line)) {
+		
+	
+	}
 
 }
-
 
 
 void Cont::creareCont() {
@@ -220,6 +243,13 @@ void Cont::creareCont() {
 
 int main() {
 	Cont cont;
-	cont.creareCont();
-	//cout << cont.preluareDateDinFisier(3);
+	//cont.creareCont();
+
+
+
+	/*int numarCont;
+	while (true) {
+		cin >> numarCont;
+	cout << cont.preluareDateDinFisier(numarCont);
+	}*/
 }
