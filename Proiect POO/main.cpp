@@ -6,6 +6,15 @@
 #include <vector>
 using namespace std;
 
+
+/*TODO: 
+- citesc datele din fisier
+- prelucrez datele intr o lista [2,5,100,3,200] sau [[2], [5,100], [3, 200]]
+- modific ce am de modificat
+- rescriu datele in fisier
+	- scriu prima valoare, endl => scriu a doua valoare, spatiu, a treia valoare, endl .. */
+
+
 class Cont{
 private:
 	int numarCont;
@@ -247,9 +256,9 @@ int main() {
 
 
 
-	/*int numarCont;
+	int numarCont;
 	while (true) {
 		cin >> numarCont;
 	cout << cont.preluareDateDinFisier(numarCont);
-	}*/
+	}
 }
