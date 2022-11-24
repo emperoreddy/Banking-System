@@ -20,16 +20,24 @@ private:
 	int numarCont;
 	int valoareCont;
 	int numarDeConturiRealizate;
-	// char* numeClient;
+	int* valori;
+	int index;
 
 public:
-	// definire parametri default
 	Cont() {
+		this->index = 0;
 		this->numarDeConturiRealizate = 0;
 		this->numarCont = 0;
 		this->valoareCont = 0;
-		//this->numeClient = new char[strlen(numeClient) + 1];
-		//strcpy(this->numeClient, numeClient);
+		this->valori = new int[100];
+		this->valori[0] = preluareNumarDeConturiFisier();
+	}
+	// FIX
+	void getValori() {
+		for (int i = 0; i < index; i++)
+		{
+			cout << this->valori[i] << endl;
+		}
 	}
 	int preluareDateDinFisier(int numarCont);
 	int preluareNumarDeConturiFisier();
@@ -42,9 +50,42 @@ public:
 		/*this->numarDeConturiRealizate = preluareNumarDeConturiFisier();
 		this->numarDeConturiRealizate += 1;*/
 		modificareNumarConturi();
+	}
+	void citireFisier();
+};
+
+void Cont::citireFisier() {
+	ifstream fisierConturi;
+	string line;
+	this->index = 1;
+	fisierConturi.open("conturi.txt");
+	if (!fisierGol()) {
+		while (getline(fisierConturi, line)) {
+			if (line.empty()) {
+				continue;
+			}
+			// daca linia contine numarul de conturi, se trece peste acea valoare
+			if (line.size() <= 2) continue;
+			auto it = line.find(" ");
+
+			if (it != string::npos) {
+				// stoi = conversie din string in int
+				// preluare prima valoare si a doua valoare de pe fiecare linie
+				this->numarCont = stoi(line.substr(0, it));
+				this->valoareCont = stoi(line.substr(it + 1, line.npos));
+				this->valori[this->index] = this->numarCont;
+				this->valori[this->index + 1] = this->valoareCont;
+				this->index++;
+			}
+
+
+		}
 
 	}
-};
+}
+
+
+
 
 void mesajCreare() {
 	cout << "----------------------------------------------" << endl;
@@ -252,13 +293,13 @@ void Cont::creareCont() {
 
 int main() {
 	Cont cont;
-	//cont.creareCont();
-
-
-
-	int numarCont;
-	while (true) {
-		cin >> numarCont;
-	cout << cont.preluareDateDinFisier(numarCont);
-	}
+	 cont.citireFisier();
+	
+	 cont.getValori();
+		//cont.creareCont();
+	//int numarCont;
+	//while (true) {
+	//	cin >> numarCont;
+	//cout << cont.preluareDateDinFisier(numarCont);
+	//}
 }
