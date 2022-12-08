@@ -8,7 +8,7 @@ using namespace std;
 
 
 /*TODO: 
-- citesc datele din fisier
+x citesc datele din fisier
 - prelucrez datele intr o lista [2,5,100,3,200] sau [[2], [5,100], [3, 200]]
 - modific ce am de modificat
 - rescriu datele in fisier
@@ -32,7 +32,6 @@ public:
 		this->valori = new int[100];
 		this->valori[0] = preluareNumarDeConturiFisier();
 	}
-	// FIX
 	void getValori() {
 		for (int i = 0; i < index; i++)
 		{
@@ -46,12 +45,14 @@ public:
 	void modificareNumarConturi();
 	bool numarContEsteValid(int numarCont);
 	void setNumarDeConturiRealizate() {
-		//TODO: plasare in fisier
-		/*this->numarDeConturiRealizate = preluareNumarDeConturiFisier();
-		this->numarDeConturiRealizate += 1;*/
 		modificareNumarConturi();
 	}
 	void citireFisier();
+
+
+	~Cont() {
+		if (this->valori != NULL) delete[] this->valori;
+	}
 };
 
 void Cont::citireFisier() {
@@ -75,7 +76,7 @@ void Cont::citireFisier() {
 				this->valoareCont = stoi(line.substr(it + 1, line.npos));
 				this->valori[this->index] = this->numarCont;
 				this->valori[this->index + 1] = this->valoareCont;
-				this->index++;
+				this->index += 2;
 			}
 
 
@@ -85,13 +86,12 @@ void Cont::citireFisier() {
 }
 
 
-
-
 void mesajCreare() {
 	cout << "----------------------------------------------" << endl;
 	cout << "1. Creare cont \n2. Inchidere cont" << endl;
 	cout << "----------------------------------------------" << endl;
 }
+
 
 void mesajCont() {
 	cout << "----------------------------------------------" << endl;
@@ -99,14 +99,16 @@ void mesajCont() {
 	cout << "----------------------------------------------" << endl;
 }
 
+
 bool Cont::fisierGol() {
 	ifstream fisier("conturi.txt");
-	if (fisier.peek() == ifstream::traits_type::eof()) {
-		return true;
-	}
-	else {
-		return false;
-	}
+	return (fisier.peek() == ifstream::traits_type::eof());
+	//if (fisier.peek() == ifstream::traits_type::eof()) {
+	//	return true;
+	//}
+	//else {
+	//	return false;
+	//}
 }
 
 // optiuni creare
@@ -167,6 +169,7 @@ int Cont::preluareDateDinFisier(int numarCont) {
 	}
 	}
 
+
 bool Cont::numarContEsteValid(int numarCont) {
 	ifstream fisierConturi;
 	map<int, int> conturi;
@@ -200,6 +203,7 @@ bool Cont::numarContEsteValid(int numarCont) {
 	}
 
 }
+
 
 int Cont::preluareNumarDeConturiFisier() {
 	ifstream fisierConturi;
@@ -296,10 +300,5 @@ int main() {
 	 cont.citireFisier();
 	
 	 cont.getValori();
-		//cont.creareCont();
-	//int numarCont;
-	//while (true) {
-	//	cin >> numarCont;
-	//cout << cont.preluareDateDinFisier(numarCont);
-	//}
+	cont.creareCont();
 }
