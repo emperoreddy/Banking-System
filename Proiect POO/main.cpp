@@ -261,7 +261,6 @@ void Cont::incrementareNumarConturi() {
 	}
 	
 	
-	int rename_result = rename("conturiNew.txt", "test.txt");
 	/*int rename_result = rename("conturiNew.txt", "test.txt");
 	if (rename_result != 0) {
 		char* error_message = strerror(errno);
@@ -287,9 +286,13 @@ void Cont::creareCont() {
 	// scrierea datelor in fisier
 	// daca am deja deja nr conturi realizate pe prima linie, atunci o preiau si o incrementez
 	if (!fisierGol()) {
-		// DACA SE STRICA STII DC
+		// INCERCARE
+		fisierConturi.close();
+
+
 		incrementareNumarConturi();
-		fisierConturi << endl ;
+		fisierConturi << endl;
+
 	}
 	else fisierConturi << 0 << endl;
 	fisierConturi << numarCont << " " << 0 << endl;
