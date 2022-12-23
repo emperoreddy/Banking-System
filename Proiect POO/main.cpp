@@ -3,13 +3,12 @@
 #include <fstream>
 #include <string>
 #include <map>
-#include <vector>
 using namespace std;
 
 
 /*TODO: 
 x citesc datele din fisier
-- prelucrez datele intr o lista [2,5,100,3,200] sau [[2], [5,100], [3, 200]]
+x prelucrez datele intr o lista [2,5,100,3,200] sau [[2], [5,100], [3, 200]]
 - modific ce am de modificat
 - rescriu datele in fisier
 	- scriu prima valoare, endl => scriu a doua valoare, spatiu, a treia valoare, endl .. */
@@ -32,21 +31,22 @@ public:
 		this->valori = new int[100];
 		this->valori[0] = preluareNumarDeConturiFisier();
 	}
+
+
 	void getValori() {
 		for (int i = 0; i < index; i++)
 		{
 			cout << this->valori[i] << endl;
 		}
 	}
+
+
 	int preluareDateDinFisier(int numarCont);
 	int preluareNumarDeConturiFisier();
 	void creareCont();
 	bool fisierGol();
-	void modificareNumarConturi();
+	void incrementareNumarConturi();
 	bool numarContEsteValid(int numarCont);
-	void setNumarDeConturiRealizate() {
-		modificareNumarConturi();
-	}
 	void citireFisier();
 
 
@@ -103,12 +103,6 @@ void mesajCont() {
 bool Cont::fisierGol() {
 	ifstream fisier("conturi.txt");
 	return (fisier.peek() == ifstream::traits_type::eof());
-	//if (fisier.peek() == ifstream::traits_type::eof()) {
-	//	return true;
-	//}
-	//else {
-	//	return false;
-	//}
 }
 
 // optiuni creare
@@ -225,49 +219,34 @@ int Cont::preluareNumarDeConturiFisier() {
 	}
 }
 
-// FIX: linia nu se schimba
-// FIX: se adauga un enter in plus dupa inserarea in fisier
 
-//void Cont::modificareNumarConturi() {
-//	ifstream fisierConturi;
-//	fisierConturi.open("conturi.txt");
-//	string line;
-//	int numarConturi;
-//	numarConturi = preluareNumarDeConturiFisier();
-//			// preluare prima linie din fisier - nr de conturi
-//		while (!fisierConturi.eof()) {
-//			getline(fisierConturi, line);
-//			size_t pozitie = line.find(numarConturi);
-//			//int pozitie = 0;
-//			string valoareModificata = to_string(numarConturi);
-//			//int lungime = line.size();
-//			int lungime = line.length();
-//			//line.replace(pozitie, lungime, valoareModificata);
-//			line.replace(pozitie, lungime, "2");
-//			break;
-//		}
-//
-//}
-
-void Cont::modificareNumarConturi() {
+void Cont::incrementareNumarConturi() {
 	ifstream filein("conturi.txt");
 	ofstream fileout("conturiNew.txt");
 	int numarContInt = preluareNumarDeConturiFisier();
-	int numarContIntNou = numarContInt + 1;
-	// conversie in string
-	string numarConturiNou = to_string(numarContIntNou);
-	string numarConturi = to_string(numarContInt);
+	// prima valoare este numarul de conturi, o modific
+	this->valori[0] = numarContInt + 1;
+
 	if (!filein || !fileout) {
 		cout << "Eroare deschidere" << endl;
+		return;
 	}
-	string line;
-	string strTemp;
-	//bool found = false;
-	while (getline(filein, line)) {
-		
-	
+	else {
+		fileout << this->valori[0] << endl << endl;
+		for (int i = 1; i < index; i++)
+		{
+			fileout << this->valori[i];
+			fileout << " ";
+			if (i % 2 == 0) fileout << endl << endl;
+		}
 	}
 
+	filein.close();
+	fileout.close();
+
+	// stergere si redenumire fisier nou cu cel vechi
+	remove("conturi.txt");
+	rename("conturiNew.txt", "test.txt");
 }
 
 
@@ -287,8 +266,8 @@ void Cont::creareCont() {
 	// scrierea datelor in fisier
 	// daca am deja deja nr conturi realizate pe prima linie, atunci o preiau si o incrementez
 	if (!fisierGol()) {
-		setNumarDeConturiRealizate();
-		fisierConturi << endl;
+		incrementareNumarConturi();
+		fisierConturi << endl ;
 	}
 	else fisierConturi << 0 << endl;
 	fisierConturi << numarCont << " " << 0 << endl;
@@ -298,7 +277,5 @@ void Cont::creareCont() {
 int main() {
 	Cont cont;
 	 cont.citireFisier();
-	
-	 cont.getValori();
 	cont.creareCont();
 }

@@ -20,10 +20,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="conturi.txt">
+    <Text Include="tips.txt">
       <Filter>Source Files</Filter>
     </Text>
-    <Text Include="tips.txt">
+    <Text Include="conturiNew.txt">
       <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>
