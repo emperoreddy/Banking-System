@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include <cstdio>
 using namespace std;
 
 
@@ -244,9 +245,28 @@ void Cont::incrementareNumarConturi() {
 	filein.close();
 	fileout.close();
 
-	// stergere si redenumire fisier nou cu cel vechi
-	remove("conturi.txt");
-	rename("conturiNew.txt", "test.txt");
+	if (filein.is_open()) {
+		printf("File is open");
+	}
+
+	 //stergere si redenumire fisier nou cu cel vechi
+	int remove_result = remove("conturi.txt");	 
+	if (remove_result != 0) {
+    // An error occurred
+    char* error_message = strerror(errno);
+    printf("Error deleting file: %s\n", error_message);
+	}
+	else {
+		printf("File deleted succesfully");
+	}
+	
+	
+	int rename_result = rename("conturiNew.txt", "test.txt");
+	/*int rename_result = rename("conturiNew.txt", "test.txt");
+	if (rename_result != 0) {
+		char* error_message = strerror(errno);
+		printf("Error deleting file: %s\n", error_message);
+	}*/
 }
 
 
@@ -263,9 +283,11 @@ void Cont::creareCont() {
 		cout << "Numar cont: " << endl;
 		cin >> numarCont;
 	}
+
 	// scrierea datelor in fisier
 	// daca am deja deja nr conturi realizate pe prima linie, atunci o preiau si o incrementez
 	if (!fisierGol()) {
+		// DACA SE STRICA STII DC
 		incrementareNumarConturi();
 		fisierConturi << endl ;
 	}
