@@ -52,6 +52,8 @@ public:
 };
 
 void Cont::citireFisier() {
+	// prelucreaza datele fisierului intr-un array
+
 	ifstream fisierConturi;
 	string line;
 	this->index = 1;
@@ -79,6 +81,7 @@ void Cont::citireFisier() {
 		}
 
 	}
+	fisierConturi.close();
 }
 
 
@@ -99,6 +102,7 @@ void mesajCont() {
 bool Cont::fisierGol() {
 	ifstream fisier("conturi.txt");
 	return (fisier.peek() == ifstream::traits_type::eof());
+	fisier.close();
 }
 
 // optiuni creare
@@ -123,6 +127,7 @@ bool Cont::fisierGol() {
 }*/
 
 int Cont::preluareDateDinFisier(int numarCont) {
+	// cauta si gaseste valoarea unui cont (balanta)
 	ifstream fisierConturi;
 	map<int, int> conturi;
 	string line;
@@ -157,10 +162,12 @@ int Cont::preluareDateDinFisier(int numarCont) {
 			return (int)conturi[numarCont];
 		}
 	}
+	fisierConturi.close();
 	}
 
 
 bool Cont::numarContEsteValid(int numarCont) {
+	// cauta existenta unui cont
 	ifstream fisierConturi;
 	map<int, int> conturi;
 	string line;
@@ -191,11 +198,13 @@ bool Cont::numarContEsteValid(int numarCont) {
 
 		}
 	}
+	fisierConturi.close();
 
 }
 
 
 int Cont::preluareNumarDeConturiFisier() {
+	// preia prima valoare din fisier, fiind numarul de conturi
 	ifstream fisierConturi;
 	fisierConturi.open("conturi.txt");
 	string line;
@@ -213,6 +222,7 @@ int Cont::preluareNumarDeConturiFisier() {
 
 		return this->numarDeConturiRealizate;
 	}
+	fisierConturi.close();
 }
 
 
@@ -240,26 +250,30 @@ void Cont::incrementareNumarConturi() {
 	filein.close();
 	fileout.close();
 
+
+
 	 //stergere si redenumire fisier nou cu cel vechi
-	//int remove_result = remove("conturi.txt");	 
-	//if (remove_result != 0) {
- //   // An error occurred
- //   char* error_message = strerror(errno);
- //   printf("Error deleting file: %s\n", error_message);
-	//}
-	//else {
-	//	printf("File deleted succesfully");
-	//}
+	int remove_result = remove("conturi.txt");	 
+	if (remove_result != 0) {
+    // An error occurred
+    char* error_message = strerror(errno);
+    printf("Error deleting file: %s\n", error_message);
+	}
+	else {
+		printf("File deleted succesfully");
+	}
+
+
 	
 	
-	//int rename_result = rename("conturiNew.txt", "conturi.txt");
-	//if (rename_result != 0) {
-	//	char* error_message = strerror(errno);
-	//	printf("Error deleting file: %s\n", error_message);
-	//}
-	//else {
-	//	printf("File renamed succesfully");
-	//}
+	int rename_result = rename("conturiNew.txt", "conturi.txt");
+	if (rename_result != 0) {
+		char* error_message = strerror(errno);
+		printf("Error renaming file: %s\n", error_message);
+	}
+	else {
+		printf("File renamed succesfully");
+	}
 }
 
 
@@ -296,6 +310,8 @@ void Cont::creareCont() {
 
 int main() {
 	Cont cont;
-	 cont.citireFisier();
+	 
+	cont.citireFisier();
 	cont.creareCont();
+	cont.getValori();
 }
