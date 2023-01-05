@@ -230,7 +230,7 @@ void Cont::incrementareNumarConturi() {
 	ifstream filein("conturi.txt");
 	ofstream fileout("conturiNew.txt");
 	int numarContInt = preluareNumarDeConturiFisier();
-	// prima valoare este numarul de conturi, o modific
+	// prima valoare este numarul de conturi, o incrementez 
 	this->valori[0] = numarContInt + 1;
 
 	if (!filein || !fileout) {
@@ -253,33 +253,32 @@ void Cont::incrementareNumarConturi() {
 
 
 	 //stergere si redenumire fisier nou cu cel vechi
-	int remove_result = remove("conturi.txt");	 
-	if (remove_result != 0) {
-    // An error occurred
-    char* error_message = strerror(errno);
-    printf("Error deleting file: %s\n", error_message);
-	}
-	else {
-		printf("File deleted succesfully");
-	}
+	//int remove_result = remove("conturi.txt");	 
+	//if (remove_result != 0) {
+ //   // An error occurred
+ //   char* error_message = strerror(errno);
+ //   printf("Error deleting file: %s\n", error_message);
+	//}
+	//else {
+	//	printf("File deleted succesfully");
+	//}
 
 
-	
-	
-	int rename_result = rename("conturiNew.txt", "conturi.txt");
-	if (rename_result != 0) {
-		char* error_message = strerror(errno);
-		printf("Error renaming file: %s\n", error_message);
-	}
-	else {
-		printf("File renamed succesfully");
-	}
+	//
+	//
+	//int rename_result = rename("conturiNew.txt", "conturi.txt");
+	//if (rename_result != 0) {
+	//	char* error_message = strerror(errno);
+	//	printf("Error renaming file: %s\n", error_message);
+	//}
+	//else {
+	//	printf("File renamed succesfully");
+	//}
 }
 
 
 void Cont::creareCont() {
 
-	// deschidere fisier
 	ofstream fisierConturi;
 	fisierConturi.open("conturi.txt", ios::app);
 	int numarCont = 0;
@@ -297,14 +296,18 @@ void Cont::creareCont() {
 		// INCERCARE
 		//fisierConturi.close();
 
-		incrementareNumarConturi();
 
 		//fisierConturi.open("conturi.txt");
 		fisierConturi << endl;
 
 	}
 	else fisierConturi << 0 << endl;
+
 	fisierConturi << numarCont << " " << 0 << endl;
+
+	// citesc dupa ce creez contul si apoi scriu in conturiNew
+	citireFisier();
+	incrementareNumarConturi();
 	}
 
 
@@ -313,5 +316,5 @@ int main() {
 	 
 	cont.citireFisier();
 	cont.creareCont();
-	cont.getValori();
+	//cont.getValori();
 }
