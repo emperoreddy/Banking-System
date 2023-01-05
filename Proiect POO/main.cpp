@@ -8,12 +8,7 @@ using namespace std;
 
 
 /*TODO: 
-x citesc datele din fisier
-x prelucrez datele intr o lista [2,5,100,3,200] sau [[2], [5,100], [3, 200]]
-- modific ce am de modificat
-- rescriu datele in fisier
-	- scriu prima valoare, endl => scriu a doua valoare, spatiu, a treia valoare, endl .. */
-
+*/
 
 class Cont{
 private:
@@ -245,27 +240,26 @@ void Cont::incrementareNumarConturi() {
 	filein.close();
 	fileout.close();
 
-	if (filein.is_open()) {
-		printf("File is open");
-	}
-
 	 //stergere si redenumire fisier nou cu cel vechi
-	int remove_result = remove("conturi.txt");	 
-	if (remove_result != 0) {
-    // An error occurred
-    char* error_message = strerror(errno);
-    printf("Error deleting file: %s\n", error_message);
-	}
-	else {
-		printf("File deleted succesfully");
-	}
+	//int remove_result = remove("conturi.txt");	 
+	//if (remove_result != 0) {
+ //   // An error occurred
+ //   char* error_message = strerror(errno);
+ //   printf("Error deleting file: %s\n", error_message);
+	//}
+	//else {
+	//	printf("File deleted succesfully");
+	//}
 	
 	
-	/*int rename_result = rename("conturiNew.txt", "test.txt");
-	if (rename_result != 0) {
-		char* error_message = strerror(errno);
-		printf("Error deleting file: %s\n", error_message);
-	}*/
+	//int rename_result = rename("conturiNew.txt", "conturi.txt");
+	//if (rename_result != 0) {
+	//	char* error_message = strerror(errno);
+	//	printf("Error deleting file: %s\n", error_message);
+	//}
+	//else {
+	//	printf("File renamed succesfully");
+	//}
 }
 
 
@@ -287,10 +281,11 @@ void Cont::creareCont() {
 	// daca am deja deja nr conturi realizate pe prima linie, atunci o preiau si o incrementez
 	if (!fisierGol()) {
 		// INCERCARE
-		fisierConturi.close();
-
+		//fisierConturi.close();
 
 		incrementareNumarConturi();
+
+		//fisierConturi.open("conturi.txt");
 		fisierConturi << endl;
 
 	}
