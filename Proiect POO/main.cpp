@@ -169,7 +169,7 @@ int Cont::preluareDateDinFisier(int numarCont) {
 bool Cont::numarContEsteValid(int numarCont) {
 	// cauta existenta unui cont
 	ifstream fisierConturi;
-	map<int, int> conturi;
+	//map<int, int> conturi; incercare cu map 
 	string line;
 	fisierConturi.open("conturi.txt");
 	if (fisierGol()) {
@@ -187,9 +187,9 @@ bool Cont::numarContEsteValid(int numarCont) {
 			if (it != string::npos) {
 				// stoi = conversie din string in int
 				// preluare prima valoare si a doua valoare de pe fiecare linie
-				this->numarCont = stoi(line.substr(0, it));
+				int numarCautat = stoi(line.substr(0, it));
 				// daca exista numarul de cont, se returneaza ca fiind invalid(fals)
-				if (this->numarCont == numarCont) {
+				if (numarCautat == numarCont) {
 					return false;
 					break;
 				}
@@ -253,27 +253,27 @@ void Cont::incrementareNumarConturi() {
 
 
 	 //stergere si redenumire fisier nou cu cel vechi
-	//int remove_result = remove("conturi.txt");	 
-	//if (remove_result != 0) {
- //   // An error occurred
- //   char* error_message = strerror(errno);
- //   printf("Error deleting file: %s\n", error_message);
-	//}
-	//else {
-	//	printf("File deleted succesfully");
-	//}
+	int remove_result = remove("conturi.txt");	 
+	if (remove_result != 0) {
+    // An error occurred
+    char* error_message = strerror(errno);
+    printf("Error deleting file: %s\n", error_message);
+	}
+	else {
+		printf("File deleted succesfully");
+	}
 
 
-	//
-	//
-	//int rename_result = rename("conturiNew.txt", "conturi.txt");
-	//if (rename_result != 0) {
-	//	char* error_message = strerror(errno);
-	//	printf("Error renaming file: %s\n", error_message);
-	//}
-	//else {
-	//	printf("File renamed succesfully");
-	//}
+	
+	
+	int rename_result = rename("conturiNew.txt", "conturi.txt");
+	if (rename_result != 0) {
+		char* error_message = strerror(errno);
+		printf("Error renaming file: %s\n", error_message);
+	}
+	else {
+		printf("File renamed succesfully");
+	}
 }
 
 
@@ -293,20 +293,15 @@ void Cont::creareCont() {
 	// scrierea datelor in fisier
 	// daca am deja deja nr conturi realizate pe prima linie, atunci o preiau si o incrementez
 	if (!fisierGol()) {
-		// INCERCARE
-		//fisierConturi.close();
-
-
-		//fisierConturi.open("conturi.txt");
 		fisierConturi << endl;
 
-	}
-	else fisierConturi << 0 << endl;
+	} else fisierConturi << 0 << endl;
 
 	fisierConturi << numarCont << " " << 0 << endl;
 
 	// citesc dupa ce creez contul si apoi scriu in conturiNew
 	citireFisier();
+	fisierConturi.close();
 	incrementareNumarConturi();
 	}
 
