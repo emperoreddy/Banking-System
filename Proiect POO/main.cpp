@@ -258,11 +258,11 @@ void Cont::incrementareNumarConturi() {
 	if (remove_result != 0) {
     // An error occurred
     char* error_message = strerror(errno);
-    printf("Error deleting file: %s\n", error_message);
+    //printf("Error deleting file: %s\n", error_message);
 	}
-	else {
-		printf("File deleted succesfully");
-	}
+	//else {
+	//	printf("File deleted succesfully");
+	//}
 
 
 	
@@ -270,11 +270,11 @@ void Cont::incrementareNumarConturi() {
 	int rename_result = rename("conturiNew.txt", "conturi.txt");
 	if (rename_result != 0) {
 		char* error_message = strerror(errno);
-		printf("Error renaming file: %s\n", error_message);
+		//printf("Error renaming file: %s\n", error_message);
 	}
-	else {
-		printf("File renamed succesfully");
-	}
+	//else {
+	//	printf("File renamed succesfully");
+	//}
 }
 
 
@@ -361,11 +361,11 @@ void Cont::inchidereCont(int cont) {
 	if (remove_result != 0) {
 		// An error occurred
 		char* error_message = strerror(errno);
-		printf("Error deleting file: %s\n", error_message);
+		//printf("Error deleting file: %s\n", error_message);
 	}
-	else {
-		printf("File deleted succesfully");
-	}
+	//else {
+	//	printf("File deleted succesfully");
+	//}
 
 
 
@@ -373,11 +373,11 @@ void Cont::inchidereCont(int cont) {
 	int rename_result = rename("conturiNew.txt", "conturi.txt");
 	if (rename_result != 0) {
 		char* error_message = strerror(errno);
-		printf("Error renaming file: %s\n", error_message);
+		//printf("Error renaming file: %s\n", error_message);
 	}
-	else {
-		printf("File renamed succesfully");
-	}
+	//else {
+	//	printf("File renamed succesfully");
+	//}
 
 }
 
