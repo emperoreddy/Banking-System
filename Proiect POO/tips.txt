@@ -11,14 +11,18 @@ X Inchidere cont
 
 
 	
-- Depunere bani  
-	* cautare numar cont in fisierul conturi
-	* adaugare valoare depusa dupa numarul contului 
+X Depunere bani  
+	* caut in array din 2 in 2 numarul contului cautat
+	* cand e gasit, urmatoarea valoare o modific cu valoarea initiala + valoarea depusa
 
 - Retragere bani 
 	* cautare numar cont in fisierul conturi
 	* VERIFICARE daca suma de retras este <= valoarea contului
 	* scadere valoare initiala cu valoarea retrasa
+
+// o singura functie, parametru boolean, daca e true, se depune, daca e false se retrage
+
+
 	
 - Transfer in alt cont 
 	* cautare numar cont de la care se transfera in fisierul conturi (si stocarea valoarii contului intr o variabila)

@@ -45,7 +45,7 @@ public:
 	bool numarContEsteValid(int numarCont);
 	void citireFisier();
 	void inchidereCont(int cont);
-	void depunereBani(int cont, int suma);
+	void depunereRetragereBani(int cont, int suma, bool depunere);
 	void stergereFisiere();
 
 
@@ -342,11 +342,13 @@ void Cont::inchidereCont(int cont) {
 }
 
 
-void Cont::depunereBani(int cont, int suma) {
+void Cont::depunereRetragereBani(int cont, int suma, bool depunere) {
 
 	int* temp = new int[this->index];
 	temp[0] = this->valori[0];
 	bool gasit = false;
+
+	if (depunere == true) {
 
 	// copiere valori bune in temp
 	for (int i = 1; i < this->index; i += 2) {
@@ -362,8 +364,33 @@ void Cont::depunereBani(int cont, int suma) {
 		}
 	}
 
-	// daca nu exista, iesim din functie
-	if (!gasit) return;
+		// daca nu exista, iesim din functie
+		if (!gasit) return;
+
+	}
+	else {
+
+	// copiere valori bune in temp
+	for (int i = 1; i < this->index; i += 2) {
+
+		if (this->valori[i] != cont) {
+			temp[i] = this->valori[i];
+			temp[i + 1] = this->valori[i + 1];
+		}
+		else { 
+			while (suma > this->valori[i + 1]) {
+				cout << "Nu aveti destui bani in cont, incercati din nou: " << endl;
+				cin >> suma;
+			}
+			gasit = true; 
+			temp[i] = this->valori[i];
+			temp[i + 1] = this->valori[i + 1] - suma;
+		}
+	}
+
+		// daca nu exista, iesim din functie
+		if (!gasit) return;
+	}
 
 	this->valori = temp;
 
@@ -434,9 +461,8 @@ int main() {
 	cout << endl << endl;
 	cont.inchidereCont(2);
 
-	cont.depunereBani(4, 1);
+	cont.depunereRetragereBani(4, 500, false);
 
-	cout << "valoarea contului 4 e " << cont.gasireValoareCont(4);
 
 
 
