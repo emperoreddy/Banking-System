@@ -1,12 +1,12 @@
-- Creare cont
+X Creare cont
 	* stocare date cont intr un fisier (conturile o sa aiba cifre de la 0 la n)
 	* valoarea contului o sa fie 0 initial
 	* afisare numar cont si valoare initiala dupa creare (plasat intr un fisier) 
 	* verificare daca exista cont (in fisierul conturi o sa fie [numarCont valoareCont], cautam in fisier )
 	
 	
-- Inchidere cont
-	* cautare numar cont in fisierul conturi
+X Inchidere cont
+	* il caut in lista de conturi si valori, din 2 in 2 ca sa nu mi ia valorile
 	* stergerea liniei unde s a gasit numarul contului
 
 
