@@ -540,6 +540,7 @@ int main() {
 
 	while (true) {
 		cout << endl << endl;
+		cout << "====================================="<< endl;
 		cout << "Ce doriti sa faceti: " << endl;
 		cout << "1. Deschidere cont" << endl;
 		cout << "2. Inchidere cont" << endl;
@@ -550,6 +551,7 @@ int main() {
 		cout << "7. Retragere" << endl;
 		cout << "8. Vizualizarea tuturor conturilor" << endl;
 		cout << "9. Iesire din aplicatie" << endl;
+		cout << "====================================="<< endl;
 		cout << endl << endl;
 
 		int optiune;
@@ -613,6 +615,8 @@ int main() {
 		}
 
 		case 8: {
+			cout << endl << endl;
+			cout << "Aveti un numar de " << cont.preluareNumarDeConturiFisier() << " conturi" << endl;
 			cont.getValori();
 			break;
 		}
