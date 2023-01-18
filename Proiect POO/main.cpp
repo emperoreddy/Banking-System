@@ -7,8 +7,6 @@
 using namespace std;
 
 
-/*TODO: 
-*/
 
 class Cont{
 private:
@@ -17,6 +15,7 @@ private:
 	int numarDeConturiRealizate;
 	int* valori;
 	int index;
+	int sumaConturi;
 
 public:
 	Cont() {
@@ -30,12 +29,14 @@ public:
 
 
 	void getValori() {
-		for (int i = 0; i < index; i++)
+		cout << endl << endl;
+		cout << "CONT || VALOARE" << endl;
+		for (int i = 1; i < index; i += 2)
 		{
-			cout << this->valori[i] << endl;
+			if (this->valori[i] < 0 || this->valori[i] > 10000000) continue;
+			cout << "|| " << this->valori[i] << " || " << this->valori[i + 1] << " ||" << endl;
 		}
 	}
-
 
 	int gasireValoareCont(int numarCont);
 	int preluareNumarDeConturiFisier();
@@ -47,6 +48,22 @@ public:
 	void inchidereCont(int cont);
 	void depunereRetragereBani(int cont, int suma, bool depunere);
 	void stergereFisiere();
+	int sumaTotala();
+	void transfer(int contExpeditor, int contDestinatar, int suma);
+
+	int getSumaTotala() {
+		return this->sumaConturi;
+	}
+
+
+	friend ostream& operator << (ostream& consola, Cont& cont) {
+
+		cont.sumaTotala();
+		consola << "Valoarea totala a conturilor detinute este: " << cont.getSumaTotala() << " lei";
+
+		return consola;
+
+	}
 
 
 	~Cont() {
@@ -87,12 +104,6 @@ void Cont::citireFisier() {
 	fisierConturi.close();
 }
 
-
-void mesajCreare() {
-	cout << "----------------------------------------------" << endl;
-	cout << "1. Creare cont \n2. Inchidere cont" << endl;
-	cout << "----------------------------------------------" << endl;
-}
 
 
 void mesajCont() {
@@ -451,19 +462,169 @@ void Cont::stergereFisiere() {
 }
 
 
+int Cont::sumaTotala() {
+
+	this->sumaConturi = 0;
+	
+	for (int i = 2; i < index; i += 2)
+	{
+		this->sumaConturi += this->valori[i];
+	}
+
+	return this->sumaConturi;
+
+}
+
+
+void Cont::transfer(int contExpeditor, int contDestinatar, int suma) {
+
+	int pozitieExpeditor = 0;
+	int pozitieDestinatar = 0;
+
+	for (int i = 1; i < this->index; i += 2) {
+		if (this->valori[i] == contExpeditor) {
+			pozitieExpeditor = i;
+		}
+		else if (this->valori[i] == contDestinatar) {
+			pozitieDestinatar = i;
+		}
+	}
+
+	if (pozitieDestinatar == 0 || pozitieExpeditor == 0) {
+		cout << "NU EXISTA CONTURILE SPECIFICATE!!" << endl;
+		return;
+	}
+
+	// daca val exp e mai mare decat suma, avem cont suficient 
+	if (this->valori[pozitieExpeditor + 1] >= suma) {
+		this->valori[pozitieDestinatar + 1] += suma;
+		this->valori[pozitieExpeditor + 1] -= suma;
+	}
+	else {
+		cout << "FONDURI INSUFICIENTE!" << endl;
+		return;
+	}
+
+	// MODIFICARE FISIER
+
+	ifstream filein("conturi.txt");
+	ofstream fileout("conturiNew.txt");
+
+	if (!filein || !fileout) {
+		cout << "Eroare deschidere" << endl;
+		return;
+	}
+	else {
+		fileout << this->valori[0] << endl << endl;
+		for (int i = 1; i < index; i++)
+		{
+			if (this->valori[i] < 0 || this->valori[i] > 100000000) continue;
+			fileout << this->valori[i];
+			fileout << " ";
+			if (i % 2 == 0) fileout << endl << endl;
+		}
+	}
+
+	filein.close();
+	fileout.close();
+
+
+	stergereFisiere();
+
+}
+
 
 int main() {
 	Cont cont;
-	 
 	cont.citireFisier();
-	cont.creareCont();
-	//cont.getValori();
-	cout << endl << endl;
-	cont.inchidereCont(2);
 
-	cont.depunereRetragereBani(4, 500, false);
+	while (true) {
+		cout << endl << endl;
+		cout << "Ce doriti sa faceti: " << endl;
+		cout << "1. Deschidere cont" << endl;
+		cout << "2. Inchidere cont" << endl;
+		cout << "3. Consolidare sold cont specificat" << endl;
+		cout << "4. Consolidare sold total" << endl;
+		cout << "5. Transfer catre alt cont" << endl;
+		cout << "6. Depunere" << endl;
+		cout << "7. Retragere" << endl;
+		cout << "8. Vizualizarea tuturor conturilor" << endl;
+		cout << "9. Iesire din aplicatie" << endl;
+		cout << endl << endl;
 
+		int optiune;
+		cin >> optiune;
 
+		switch (optiune) {
+		case 1: {
+			cont.creareCont();
+			break;
+		}
+		case 2: {
+			int nrCont;
+			cout << "Introduceti numarul contului pe care doriti sa il inchideti: " << endl;
+			cin >> nrCont;
+			cont.inchidereCont(nrCont);
+			break;
+		}
+		case 3: {
+			int nrCont;
+			cout << "Introduceti numarul contului pe care doriti sa il consolidati: " << endl;
+			cin >> nrCont;
+			cout << "Valoarea contului " << nrCont << " este " << cont.gasireValoareCont(nrCont) << " lei" << endl;
+			break;
+		}
+		case 4: {
+			cout << "Suma totala a conturilor este de " << 	cont.sumaTotala() << " lei" << endl;
+			break;
+		}
+		case 5: {
+			int contExpeditor;
+			int contDestinatar;
+			int suma;
+			cout << "Introduceti numarul contului curent: " << endl;
+			cin >> contExpeditor;
+			cout << "Introduceti numarul contului catre care doriti transferul: " << endl;
+			cin >> contDestinatar;
+			cout << "Introduceti suma pe care doriti sa o transferati: " << endl;
+			cin >> suma;
+			cont.transfer(contExpeditor, contDestinatar, suma);
+			break;
+		}
+		case 6: {
+			int nrCont;
+			int suma;
+			cout << "Introduceti numarul contului pe care doriti sa depuneti: " << endl;
+			cin >> nrCont;
+			cout << "Introduceti suma pe care doriti sa o depuneti: " << endl;
+			cin >> suma;
+			cont.depunereRetragereBani(nrCont, suma, true);
+			break;
+		}
+		case 7: {
+			int nrCont;
+			int suma;
+			cout << "Introduceti numarul contului de pe care doriti sa retrageti: " << endl;
+			cin >> nrCont;
+			cout << "Introduceti suma pe care doriti sa o retrageti: " << endl;
+			cin >> suma;
+			cont.depunereRetragereBani(nrCont, suma, false);
+			break;
+		}
 
+		case 8: {
+			cont.getValori();
+			break;
+		}
+			  
+		case 9: {
+			return 0;
+		}
+		default: {
+			cout << "Optiune invalida!" << endl;
+			break;
+		}
 
+		}
+	}
 }

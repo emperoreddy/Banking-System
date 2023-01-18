@@ -15,7 +15,7 @@ X Depunere bani
 	* caut in array din 2 in 2 numarul contului cautat
 	* cand e gasit, urmatoarea valoare o modific cu valoarea initiala + valoarea depusa
 
-- Retragere bani 
+X Retragere bani 
 	* cautare numar cont in fisierul conturi
 	* VERIFICARE daca suma de retras este <= valoarea contului
 	* scadere valoare initiala cu valoarea retrasa
@@ -32,7 +32,7 @@ X Depunere bani
 	* scadere valoare initiala cu valoarea transferata
 	* adaugare valoare transferata la valoarea contului in care se transfera
 
-- Suma totala detinuta de toate conturile
+X Suma totala detinuta de toate conturile
 	* citire valori conturi din fisier 
 	* stocare intr o variabila array
 	* suma valorilor din array
